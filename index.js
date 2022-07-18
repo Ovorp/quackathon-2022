@@ -1,12 +1,25 @@
-require("dotenv").config()
-const express = require('express');
-const massive = require('massive');
-const { PORT } = process.env
-const {getAuth, notAuth, getAuthPost} = require('./controllers/endpoints.js')
+require("dotenv").config();
+const express = require("express");
+const massive = require("massive");
+const { PORT } = process.env;
+
+const {
+  getAuth,
+  notAuth,
+  getAllEndpoints,
+  getListOfAllBirds,
+  getSpecificBird,
+  getAllScientificName,
+  getSpecificScientificName,
+  getBody,
+  getSpecificBody,
+  getLocation,
+  getSpecificLocation
+} = require("./controllers/endpoints.js");
 
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
 // massive({
 //     connectionString: CONNECTION_STRING,
@@ -18,12 +31,23 @@ app.use(express.json())
 //     console.log('The database is running');
 //   });
 
-const API_TEST = `/api/test`
+app.get(`/start`, getAuth);
+
+app.use(notAuth);
+
+app.get(`/birds`, getAllEndpoints);
+app.get(`/birds/commonName`, getListOfAllBirds);
+app.get(`/birds/commonName/:commonName`, getSpecificBird);
+app.get(`/birds/sciNames`, getAllScientificName);
+app.get(`/birds/sciNames/:commonName`, getSpecificScientificName)
+app.get(`/birds/bodies`, getBody)
+app.get(`/birds/bodies/:commonName`, getSpecificBody)
+app.get(`/birds/locations`, getLocation)
+app.get(`/birds/locations/:commonName`, getSpecificLocation)
 
 
-app.get(API_TEST, getAuth)
 
-app.use(notAuth)
 
-app.get(`${API_TEST}/after`, getAuthPost)
-app.listen(PORT || 3000, () => console.log('server is running on port number:', PORT||3000));
+app.listen(PORT || 3000, () =>
+  console.log("server is running on port number:", PORT || 3000)
+);
