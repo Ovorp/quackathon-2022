@@ -26,4 +26,4 @@ app.get(API_TEST, getAuth)
 app.use(notAuth)
 
 app.get(`${API_TEST}/after`, getAuthPost)
-app.listen(PORT, () => console.log('server is running on port number:', PORT));
+app.listen(PORT || 3000, () => console.log('server is running on port number:', PORT||3000));
