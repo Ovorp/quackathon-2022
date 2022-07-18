@@ -11,7 +11,9 @@ function getAuthPost(req, res) {
 }
 
 function notAuth(req, res, next) {
-    let auth = req.header.authentication
+    let auth = req.headers.authorization
+    console.log(req.headers.authorization)
+    console.log(JSON.stringify(req.headers))
 
     if (auth != 'theCakeIsALie') {
         res.status(401).send('Nice try')
