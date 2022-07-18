@@ -2,6 +2,7 @@ require("dotenv").config()
 const express = require('express');
 const massive = require('massive');
 const { PORT } = process.env
+const {getAuth, notAuth, getAuthPost} = require('./controllers/endpoints.js')
 
 const app = express();
 
@@ -17,10 +18,12 @@ app.use(express.json())
 //     console.log('The database is running');
 //   });
 
+const API_TEST = `/api/test`
 
-app.get('/api/test', (req, res) => {
-    console.log('this is a test endpoint')
-    res.send('Good job you hit the endpoint but this was a test')
-})
 
+app.get(API_TEST, getAuth)
+
+app.use(notAuth)
+
+app.get(`${API_TEST}/after`, getAuthPost)
 app.listen(PORT, () => console.log('server is running on port number:', PORT));
