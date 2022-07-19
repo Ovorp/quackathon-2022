@@ -5,7 +5,7 @@ function notAuth(req, res, next) {
   let auth = req.headers.authorization;
 
   if (auth != AUTH_VALUE) {
-    res.status(401).send("Try the endpoint /start");
+    res.status(401).send("Check your status code.  You are not Authorized try the endpoint /start");
   } else {
 
     next();
@@ -123,7 +123,6 @@ function getLocation(req, res) {
   mockData.forEach((val) => {
     response.push({
       "Common Name": val["Common Name"],
-      Geography: val["Geography"],
       Ecosystem: val["Ecosystem"],
       Diet: val["Diet"],
       migrates: val["migrates"],
@@ -140,7 +139,6 @@ function getSpecificLocation(req, res) {
     if (val["Common Name"].toLowerCase() == commonName.toLowerCase()) {
       let item = {
         "Common Name": val["Common Name"],
-        Geography: val["Geography"],
         Ecosystem: val["Ecosystem"],
         Diet: val["Diet"],
         migrates: val["migrates"],
@@ -152,6 +150,14 @@ function getSpecificLocation(req, res) {
     res.status(404).send("That common name is not valid");
   } else {
     res.status(200).json(response[0]);
+  }
+}
+
+function finalAnswerCheck(req, res) {
+  if (!req.body) {
+    res.status(418).send(`Please send a POST request to the same endpoint with a body.  The body should have a 'key' called answer and the 'value' should be your answer!`)
+  } else if (req.body.answer === 'Aythya innotata') { 
+    res.status
   }
 }
 
