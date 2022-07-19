@@ -6,9 +6,11 @@ function notAuth(req, res, next) {
 
   if (auth != AUTH_VALUE) {
     res.status(401).send("Try the endpoint /start");
+  } else {
+
+    next();
   }
 
-  next();
 }
 
 function getAuth(req, res) {
