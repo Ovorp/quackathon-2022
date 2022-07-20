@@ -204,13 +204,13 @@ async function getNotebook(req, res) {
 }
 
 async function updateNotebook(req, res) {
-  const {commonName, bird_height, food, color, bird_weight, ecosystem, migration, family, sci_name, notebook_id} = req.body;
+  const {common_name, bird_height, food, color, bird_weight, ecosystem, migration, family, sci_name, notebook_id} = req.body;
   const db = req.app.get('db');
   let notebook = await db.get_notebook([notebook_id])
 
   notebook = notebook[0]
   let newNotebook = {
-    'common_name' : commonName || notebook['common_name'] || null,
+    'common_name' : common_name || notebook['common_name'] || null,
     'bird_height' : bird_height || notebook['bird_height'] || null,
     'food' : food || notebook['food'] || null,
     'color' : color || notebook['color'] || null,

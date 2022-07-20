@@ -23,7 +23,7 @@
             "Weight" : "11 - 18 lbs",
             "Ecosystem" : "Southern Ocean, beach and island",
             "Diet" : "squid, crustaceans, and fish",
-            "migrates" : false
+            "migrates" : true
         },
         {
             "Common Name" : "Mallard",
