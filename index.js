@@ -29,15 +29,15 @@ app.use(express.json());
 
 
 
-// massive({
-//   connectionString: CONNECTION_STRING,
-//   ssl: {
-//     rejectUnauthorized: false,
-//   },
-// }).then((dbInstance) => {
-//   app.set('db', dbInstance);
-//   console.log('The database is running');
-// });
+massive({
+  connectionString: CONNECTION_STRING,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+}).then((dbInstance) => {
+  app.set('db', dbInstance);
+  console.log('The database is running');
+});
 
 app.get(`/start`, getAuth);
 
