@@ -15,12 +15,12 @@ const {
   getSpecificBody,
   getLocation,
   getSpecificLocation,
-  // finalAnswerCheck,
-  // addNotebook,
-  // getNotebook,
-  // updateNotebook,
-  // checkLeaderboard,
-  // addLeaderboard
+  finalAnswerCheck,
+  addNotebook,
+  getNotebook,
+  updateNotebook,
+  checkLeaderboard,
+  addLeaderboard
 } = require("./controllers/endpoints.js");
 
 const app = express();
@@ -53,14 +53,14 @@ app.get(`/birds/bodies/:commonName`, getSpecificBody)
 app.get(`/birds/locations`, getLocation)
 app.get(`/birds/locations/:commonName`, getSpecificLocation)
 
-// app.post(`/answers`, finalAnswerCheck)
+app.post(`/answers`, finalAnswerCheck)
 
-// app.get(`/notebooks/:notebook_id`, getNotebook)
-// app.post(`/notebooks`, addNotebook)
-// app.put(`/notebooks`, updateNotebook)
+app.get(`/notebooks/:notebook_id`, getNotebook)
+app.post(`/notebooks`, addNotebook)
+app.put(`/notebooks`, updateNotebook)
 
-// app.get(`/leaderboard`, checkLeaderboard)
-// app.post(`/leaderboard`, addLeaderboard)
+app.get(`/leaderboard`, checkLeaderboard)
+app.post(`/leaderboard`, addLeaderboard)
 
 
 
