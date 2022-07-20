@@ -211,7 +211,9 @@ async function updateNotebook(req, res) {
   const {commonName, bird_height, food, color, bird_weight, ecosystem, migration, family, sci_name, notebook_id} = req.body;
   const db = req.app.get('db');
   let notebook = await db.get_notebook([notebook_id])
-  notebook = {
+
+  notebook = notebook[0]
+  let newNotebook = {
     'common_name' : commonName || notebook['common_name'] || null,
     'bird_height' : bird_height || notebook['bird_height'] || null,
     'food' : food || notebook['food'] || null,
@@ -223,9 +225,19 @@ async function updateNotebook(req, res) {
     'sci_name' : sci_name || notebook['sci_name'] || null
 
   }
-
+  //  let newNotebook = {
+  //   'common_name' :notebook[0]['common_name'] || commonName,
+  //   'bird_height' :notebook[0]['bird_height'] || bird_height,
+  //   'food' : notebook[0]['food'] || food,
+  //   'color' :notebook[0]['color'] || color,
+  //   'bird_weight' :notebook[0]['bird_weight'] || bird_weight,
+  //   'ecosystem' : notebook[0]['ecosytem'] || ecosystem,
+  //   'migration' : notebook[0]['migration'] || migration,
+  //   'family' : notebook[0]['family'] ||family,
+  //   'sci_name' : notebook[0]['sci_name'] || sci_name 
+  // }
   let updatedNotebook = await db.update_notebook([notebook_id,
-   notebook.common_name, notebook.bird_height, notebook.food, notebook.color, notebook.bird_weight, notebook.ecosystem, notebook.migration, notebook.family, notebook.sci_name
+    newNotebook.common_name, newNotebook.bird_height, newNotebook.food, newNotebook.color, newNotebook.bird_weight, newNotebook.ecosystem, newNotebook.migration, newNotebook.family, newNotebook.sci_name
   ])
 
   res.status(200).json(updatedNotebook)
