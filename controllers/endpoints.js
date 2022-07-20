@@ -24,7 +24,7 @@ function getAuth(req, res) {
 function getAllEndpoints(req, res) {
   let message = {
     message: `You are now authorized, try some of the endpoints below`,
-    endpoint: [`/birds`, `/birds/commonName`,`/birds/commonName/:commonName`, `/birds/sciNames`, `/birds/sciNames/:commonName`, `/birds/bodies`, `/birds/bodies/:commonName`, `/birds/locations`, `/birds/locations/:commonName`, '/notebook'],
+    endpoint: [`/birds`, `/birds/commonName`,`/birds/commonName/:commonName`, `/birds/sciNames`, `/birds/sciNames/:commonName`, `/birds/bodies`, `/birds/bodies/:commonName`, `/birds/locations`, `/birds/locations/:commonName`, '/notebooks', '/answers'],
   };
   res.status(200).json(message);
 }
