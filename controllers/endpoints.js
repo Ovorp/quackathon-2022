@@ -167,7 +167,6 @@ async function checkLeaderboard(req, res) {
   const db = req.app.get('db')
 
   const response = await db.check_leaderboard();
-  console.log(response)
 
   res.status(200).json(response)
 
@@ -190,8 +189,6 @@ async function addNotebook(req, res) {
     username
   ])
 
-  console.log(notebook)
-
   res.status(200).json(notebook)
   
 }
@@ -199,7 +196,6 @@ async function addNotebook(req, res) {
 async function getNotebook(req, res) {
   const {notebook_id} = req.params;
   const db = req.app.get('db')
-  console.log(notebook_id)
   const notebook = await db.get_notebook([
     notebook_id
   ])
