@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const massive = require("massive");
-const { PORT } = process.env;
+const { PORT, CONNECTION_STRING } = process.env;
 
 const {
   getAuth,
@@ -14,22 +14,30 @@ const {
   getBody,
   getSpecificBody,
   getLocation,
-  getSpecificLocation
+  getSpecificLocation,
+  finalAnswerCheck,
+  addNotebook,
+  getNotebook,
+  updateNotebook,
+  checkLeaderboard,
+  addLeaderboard
 } = require("./controllers/endpoints.js");
 
 const app = express();
 
 app.use(express.json());
 
-// massive({
-//     connectionString: CONNECTION_STRING,
-//     ssl: {
-//       rejectUnauthorized: false,
-//     },
-//   }).then((dbInstance) => {
-//     app.set('db', dbInstance);
-//     console.log('The database is running');
-//   });
+
+
+massive({
+  connectionString: CONNECTION_STRING,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+}).then((dbInstance) => {
+  app.set('db', dbInstance);
+  console.log('The database is running');
+});
 
 app.get(`/start`, getAuth);
 
@@ -44,6 +52,15 @@ app.get(`/birds/bodies`, getBody)
 app.get(`/birds/bodies/:commonName`, getSpecificBody)
 app.get(`/birds/locations`, getLocation)
 app.get(`/birds/locations/:commonName`, getSpecificLocation)
+
+app.post(`/answers`, finalAnswerCheck)
+
+app.get(`/notebooks/:notebook_id`, getNotebook)
+app.post(`/notebooks`, addNotebook)
+app.put(`/notebooks`, updateNotebook)
+
+app.get(`/leaderboard`, checkLeaderboard)
+app.post(`/leaderboard`, addLeaderboard)
 
 
 

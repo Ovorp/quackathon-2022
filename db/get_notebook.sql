@@ -1,0 +1,1 @@
+select * from notebook where notebook_id = $1;

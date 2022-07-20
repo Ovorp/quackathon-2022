@@ -24,7 +24,7 @@ function getAuth(req, res) {
 function getAllEndpoints(req, res) {
   let message = {
     message: `You are now authorized, try some of the endpoints below`,
-    endpoint: [`/birds`, `/birds/commonName`,`/birds/commonName/:commonName`, `/birds/sciNames`, `/birds/sciNames/:commonName`, `/birds/bodies`, `/birds/bodies/:commonName`, `/birds/locations`, `/birds/locations/:commonName`],
+    endpoint: [`/birds`, `/birds/commonName`,`/birds/commonName/:commonName`, `/birds/sciNames`, `/birds/sciNames/:commonName`, `/birds/bodies`, `/birds/bodies/:commonName`, `/birds/locations`, `/birds/locations/:commonName`, '/notebook'],
   };
   res.status(200).json(message);
 }
@@ -154,11 +154,82 @@ function getSpecificLocation(req, res) {
 }
 
 function finalAnswerCheck(req, res) {
-  if (!req.body) {
-    res.status(418).send(`Please send a POST request to the same endpoint with a body.  The body should have a 'key' called answer and the 'value' should be your answer!`)
+  if (!req.body.answer) {
+    res.status(418).send(`Please send a POST request to /leaderboard with a body.  The body should have a 'key' called answer and the 'value' should be your answer!`)
   } else if (req.body.answer === 'Aythya innotata') { 
-    res.status
+    res.status(202).send(`Good Job now you can use postman.  To add your name to the leaderboard please send a POST request to /leaderboards, and in the body send 'name', 'data', 'animal'(Your favorite animal)`)
+  } else {
+    res.status(420).send(`I don't think that is the right answer, please try again!`)
   }
+}
+
+async function checkLeaderboard(req, res) {
+  const db = req.app.get('db')
+
+  const response = await db.check_leaderboard();
+  console.log(response)
+
+  res.status(200).json(response)
+
+}
+
+async function addLeaderboard(req, res) {
+  const {username, animal} = req.body;
+  const db = req.app.get('db');
+
+  const leaderboard = await db.add_leaderboard([username, animal])
+
+  res.status(200).json(leaderboard)
+}
+
+async function addNotebook(req, res) {
+  const {username} = req.body;
+  const db = req.app.get('db');
+
+  const notebook = await db.add_notebook([
+    username
+  ])
+
+  console.log(notebook)
+
+  res.status(200).json(notebook)
+  
+}
+
+async function getNotebook(req, res) {
+  const {notebook_id} = req.params;
+  const db = req.app.get('db')
+  console.log(notebook_id)
+  const notebook = await db.get_notebook([
+    notebook_id
+  ])
+
+  res.status(200).json(notebook)
+}
+
+async function updateNotebook(req, res) {
+  const {commonName, bird_height, food, color, bird_weight, ecosystem, migration, family, sci_name, notebook_id} = req.body;
+  const db = req.app.get('db');
+  let notebook = await db.get_notebook([notebook_id])
+  notebook = {
+    'common_name' : commonName || notebook['common_name'] || null,
+    'bird_height' : bird_height || notebook['bird_height'] || null,
+    'food' : food || notebook['food'] || null,
+    'color' : color || notebook['color'] || null,
+    'bird_weight' : bird_weight || notebook['bird_weight'] || null,
+    'ecosystem' : ecosystem || notebook['ecosytem'] || null,
+    'migration' : migration || notebook['migration'] || false,
+    'family' : family || notebook['family'] || null,
+    'sci_name' : sci_name || notebook['sci_name'] || null
+
+  }
+
+  let updatedNotebook = await db.update_notebook([notebook_id,
+   notebook.common_name, notebook.bird_height, notebook.food, notebook.color, notebook.bird_weight, notebook.ecosystem, notebook.migration, notebook.family, notebook.sci_name
+  ])
+
+  res.status(200).json(updatedNotebook)
+
 }
 
 module.exports = {
@@ -173,4 +244,10 @@ module.exports = {
   getSpecificBody,
   getLocation,
   getSpecificLocation,
+  finalAnswerCheck,
+  addNotebook,
+  getNotebook,
+  updateNotebook,
+  checkLeaderboard,
+  addLeaderboard
 };
