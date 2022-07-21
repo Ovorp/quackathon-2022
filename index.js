@@ -40,7 +40,7 @@ massive({
 });
 
 app.get(`/start`, getAuth);
-
+app.get(`/leaderboard`, checkLeaderboard)
 app.use(notAuth);
 
 app.get(`/birds`, getAllEndpoints);
@@ -59,7 +59,7 @@ app.get(`/notebooks/:notebook_id`, getNotebook)
 app.post(`/notebooks`, addNotebook)
 app.put(`/notebooks`, updateNotebook)
 
-app.get(`/leaderboard`, checkLeaderboard)
+
 app.post(`/leaderboard`, addLeaderboard)
 
 
